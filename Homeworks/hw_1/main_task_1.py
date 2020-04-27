@@ -15,6 +15,7 @@ def parse(query: str) -> dict:
         result[paramName] = paramValue
     return result
 
+ 
 
 
 if __name__ == '__main__':
