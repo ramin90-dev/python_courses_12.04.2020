@@ -1,4 +1,5 @@
-from django.db import models
+from django.db import models # noqa imported unused
+
 
 class Students(models.Model):
     first_name = models.CharField(max_length=64)
@@ -10,8 +11,4 @@ class Students(models.Model):
         return f'{self.first_name} {self.last_name} {self.age}'
 
     def info(self) -> str:
-        return f'{self.id}   {self.first_name}   {self.last_name}   {self.age}'
-
-    def inc_age(self) -> None:
-        self.age += 1
-        self.save()
+        return f'{self.id} {self.first_name} {self.last_name} {self.age}'
