@@ -19,12 +19,16 @@ class Command(BaseCommand):
         teachers_gend = ['True', 'False']
         random_age = random.randint(20, 60)
         datetime = ['2020-02-20']
+
+        ap_teachers = []
         for _ in range(value):
-            teachers.objects.create(
+            ap_teachers.append(teachers(
                 tech_name=fake.first_name(),
                 tech_surn=fake.last_name(),
                 tech_gend=random.choice(teachers_gend),  # Мужской/Женский
                 tech_city=fake.first_name(),  # подставил Имя вместо города
                 tech_age=random_age,
                 tech_date=random.choice(datetime),
-            )
+            ))
+
+        teachers.objects.bulk_create(ap_teachers)

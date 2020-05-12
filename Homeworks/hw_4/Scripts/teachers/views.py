@@ -1,4 +1,5 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render
 
 from teachers.models import teachers
 
@@ -19,3 +20,23 @@ def generate_teachers(request):
     for teacher in teachers_filter:
         response += teacher.full_info() + '<br/>'
     return HttpResponse(response)
+
+
+def index(request):
+    return render(request, "index.html", context={})
+
+
+def create_teachers(request):
+    from teachers.forms import TeachersCreateForm
+
+    if request.method == 'POST':
+        form = TeachersCreateForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/')
+    elif request.method == 'GET':
+        form = TeachersCreateForm()
+
+    context = {'create_form': form}
+    return render(request, "create_teachers.html", context=context)
