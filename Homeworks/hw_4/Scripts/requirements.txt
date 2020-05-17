@@ -2,8 +2,10 @@ appdirs==1.4.3
 certifi==2020.4.5.1
 chardet==3.0.4
 cycler==0.10.0
+decorator==4.4.2
 distlib==0.3.0
 Django==2.2.12
+django-debug-toolbar==2.2
 django-extensions==2.2.9
 entrypoints==0.3
 Faker==4.0.3
@@ -33,6 +35,7 @@ request==2019.4.13
 requests==2.23.0
 response==0.4.0
 scipy==1.4.1
+self==2019.4.13
 six==1.14.0
 sqlparse==0.3.1
 text-unidecode==1.3
