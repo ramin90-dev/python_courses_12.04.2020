@@ -1,31 +1,30 @@
-from django.http import HttpResponse
-from students.models import Students
-from faker import Faker
 import random
-#from Scripts.students.parser import generate_students
-import string
 
+from django.http import HttpResponse
+
+from faker import Faker
+
+from students.models import Students
 
 
 def generate_student(request):
     fake = Faker()
-    random_age = random.randint(18, 55) #интервал возвраста студента
+    random_age = random.randint(18, 55)
     student = Students.objects.create(
         first_name=fake.first_name(),
         last_name=fake.last_name(),
         age=random_age,
-                                       ) # генерим и записываем значения
-    response = f'Random student : <br/> id  first_name last_name age <br/>{student.info()}' # готовим ответ из models.py def info
-
+                                       )
+    response = f'Random student : <br/> id  first_name last_name age <br/>{student.info()}'
     return HttpResponse(response)
+
 
 def student_generate(count: int = 1) -> str:
     fake = Faker()
     result = ''
-
     for i in range(int(count)):
         student = Students.objects.create(first_name=fake.first_name(), last_name=fake.last_name(),
-                                         age=(random.randrange(17, 45, 1)))
+                                          age=(random.randrange(17, 45, 1)))
         response = f'Random student: {student.info()} <br/>'
         result += response
 

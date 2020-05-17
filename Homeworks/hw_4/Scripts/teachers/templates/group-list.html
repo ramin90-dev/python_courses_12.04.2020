@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<a >All group</a><br>
+Count of group: {{ count }}<br>
+<br> </br>
+<a href="{% url 'Index' %}"><input type="button" value="Main page"/></a><br> </br>
+<a href="{% url 'group:create' %}"><input type="button" value="Create new group"/></a><br> </br>
+
+{% for group in groups%}
+
+    <a href="{% url 'group:edit' pk=group.id%}">{{group.id}}</a>
+    {{group.full_info}}<br>
+{% endfor %}
+
+</body>
+</html>
