@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+from celery.schedules import crontab
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -41,6 +43,7 @@ INSTALLED_APPS = [
 
     'django_extensions',
     'debug_toolbar',
+    'silk',
 
     'students',
     'group',
@@ -56,6 +59,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'silk.middleware.SilkyMiddleware',
+    'teachers.middlewares.SimpleMiddleware',
+    'silk.middleware.SilkyMiddleware',
 ]
 
 ROOT_URLCONF = 'students_traker.urls'
@@ -114,7 +120,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Kiev'
 
 USE_I18N = True
 
@@ -131,3 +137,21 @@ STATIC_URL = '/static/'
 INTERNAL_IPS = [
     '127.0.0.1',
 ]
+
+CELERY_BROKER_URL = 'amqp://localhost'
+
+
+CELERY_BEAT_SCHEDULE = {
+    'log_del': {
+        'task': 'teachers.tasks.del_logs',
+        'schedule': crontab(minute=0, hour=0)
+    }
+}
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'hilleldjango123456@gmail.com'
+EMAIL_HOST_PASSWORD = '123456hillel'
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False

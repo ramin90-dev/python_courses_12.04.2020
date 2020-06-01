@@ -1,6 +1,6 @@
 from django.contrib import admin # noqa imported unused
 
-from teachers.models import teachers
+from teachers.models import Teachers
 
 
 class TeachersAdmin(admin.ModelAdmin):
@@ -22,4 +22,4 @@ class TeachersAdmin(admin.ModelAdmin):
         return queryset
 
 
-admin.site.register(teachers, TeachersAdmin)
+admin.site.register(Teachers, TeachersAdmin)

@@ -1,8 +1,8 @@
-from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse
+from django.shortcuts import get_object_or_404, redirect, render, reverse
 
-from teachers.forms import TeachersCreateForm
-from teachers.models import teachers
+from teachers.forms import ContactUsForm, TeachersCreateForm
+from teachers.models import Teachers
+from teachers.tasks import send_lmail
 
 
 def teacher_all(request):
@@ -15,7 +15,7 @@ def teacher_all(request):
         'tech_date',
 
     ]
-    teachers_queryset = teachers.objects.all()
+    teachers_queryset = Teachers.objects.all()
     for param in params:
         value = request.GET.get(param)
         if value:
@@ -43,7 +43,7 @@ def create_teachers(request):
 
 
 def edit_teachers(request, pk):
-    teacher = get_object_or_404(teachers, id=pk)
+    teacher = get_object_or_404(Teachers, id=pk)
 
     if request.method == 'POST':
         form = TeachersCreateForm(request.POST, instance=teacher)
@@ -61,6 +61,19 @@ def edit_teachers(request, pk):
 
 
 def delete_teacher(request, pk):
-    teacher = get_object_or_404(teachers, id=pk)
+    teacher = get_object_or_404(Teachers, id=pk)
     teacher.delete()
     return redirect(reverse('teachers:list'))
+
+
+def email(request):
+    if request.method == 'POST':
+        email_form = ContactUsForm(request.POST)
+
+        if email_form.is_valid():
+            send_lmail.delay(request.POST)
+            return redirect(reverse('index'))
+
+    elif request.method == 'GET':
+        email_form = ContactUsForm()
+    return render(request, 'email_form.html', context={'email_form': email_form})
