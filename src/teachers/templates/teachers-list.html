@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<a >All teachers</a><br>
+Count of teachers: {{ count }}<br>
+<br> </br>
+<a href="{% url 'Index' %}"><input type="button" value="Main page"/></a><br> </br>
+<a href="{% url 'teachers:create' %}"><input type="button" value="Create new teacher"/></a><br> </br>
+
+{% for teachers in teachers%}
+
+    <a href="{% url 'teachers:edit' pk=teachers.id%}">{{teachers.id}}</a>
+    {{teachers.info_date}}<br>
+{%endfor%}
+
+</body>
+</html>
