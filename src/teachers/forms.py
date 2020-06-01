@@ -1,24 +1,27 @@
 from django import forms
 
-from teachers.models import Teachers
+from teachers.models import Teacher
 
 
-class TeachersCreateForm(forms.ModelForm):
+class TeacherCreateForm (forms.ModelForm):
     class Meta:
-        model = Teachers
-        fields = ('tech_name',
-                  'tech_surn',
-                  'tech_gend',
-                  'tech_city',
-                  'tech_age',
-                  'tech_date',
-                  'tech_phone',
-                  )
+        model = Teacher
+        fields = (
+            'first_name',
+            'last_name',
+            'age',
+            'active_groups',
+            'password',
+            'phone'
+        )
 
     def clean_phone(self):
-        phone = self.cleaned_data['tech_phone']
-        cleaned_phone = ''.join(i for i in phone if i.isdigit())
-        return cleaned_phone
+        phone = self.cleaned_data['phone']
+
+        if not phone.isdigit():
+             raise forms.ValidationError('enter numbers only')
+
+        return clened_phone
 
 
 class ContactUsForm(forms.Form):

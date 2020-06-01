@@ -1,23 +1,26 @@
-from django.db import models # noqa imported unused
+from django.db import models
+
+from students.models import Student
+
+from teachers.models import Teacher
 
 
 class Group(models.Model):
-    group_empl = models.CharField(max_length=32)
-    group_name = models.CharField(max_length=32)
-    title = models.BooleanField()
-    info = models.CharField(max_length=255)
-    group_phone = models.CharField(max_length=24, default='')
+    group_code = models.PositiveIntegerField()
+    group_number = models.PositiveIntegerField()
+    form_of_training = models.CharField(max_length=64)
+    training_completed = models.BooleanField(null=True)
+    first_name = models.CharField(max_length=64)
+    last_name = models.CharField(max_length=64)
+    head = models.OneToOneField(Student, on_delete=models.SET_NULL, null=True)
+    curator = models.ForeignKey(Teacher, on_delete=models.CASCADE)
 
-    @property
-    def full_info(self):
-        return f'{self.group_empl} {self.group_name} {self.title} {self.info} {self.group_phone}'
+    def full_group(self):
+        return f'{self.group_code} {self.group_number} {self.form_of_training} {self.training_completed} {self.first_name} {self.last_name}' # noqa - E501 line too long (140 > 120 characters)
 
-    def data(self):
-        return f'{self.id} {self.group_empl} {self.group_name} {self.title} {self.info} {self.group_phone}'
+    def info(self):
+        return f'{self.group_code} {self.group_number}' \
+               f' {self.form_of_training}'
 
-
-class Logger(models.Model):
-    method = models.CharField(max_length=10)
-    path = models.CharField(max_length=64)
-    execution_time = models.PositiveSmallIntegerField()
-    created = models.DateTimeField(auto_now_add=True)
+    def full_name(self):
+        return f'{self.first_name} {self.last_name} {self.group_code} {self.group_number} {self.form_of_training}'

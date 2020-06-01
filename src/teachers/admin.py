@@ -1,25 +1,20 @@
-from django.contrib import admin # noqa imported unused
+from django.contrib import admin
 
-from teachers.models import Teachers
+from teachers.models import Teacher
 
 
-class TeachersAdmin(admin.ModelAdmin):
-    list_per_page = 15
-    list_display = ('tech_name',
-                    'tech_surn',
-                    'tech_gend',
-                    'tech_city',
-                    'tech_age',
-                    'tech_date'
-                    )
+class TeacherAdmin(admin.ModelAdmin):
+    list_per_page = 10
+    list_display = ('id', 'first_name', 'last_name', 'age', 'specification', 'active_groups')
+    fields = ('first_name', 'last_name', 'age', 'specification', 'active_groups')
+    readonly_fields = ('specification', 'active_groups')
 
     def get_queryset(self, request):
         queryset = super().get_queryset(request)
 
         if not request.user.is_superuser:
-            queryset = queryset.filter(age__gte=30)
+            queryset = queryset.filter(age__gt=18)
 
         return queryset
 
-
-admin.site.register(Teachers, TeachersAdmin)
+admin.site.register(Teacher, TeacherAdmin) # noqa
