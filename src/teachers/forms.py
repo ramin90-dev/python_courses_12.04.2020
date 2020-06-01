@@ -17,9 +17,10 @@ class TeacherCreateForm (forms.ModelForm):
 
     def clean_phone(self):
         phone = self.cleaned_data['phone']
-
-        if not phone.isdigit():
-             raise forms.ValidationError('enter numbers only')
+        clened_phone = ''
+        for i in phone:
+            if not i.isdigit():
+                raise forms.ValidationError('enter numbers only')
 
         return clened_phone
 
