@@ -1,6 +1,6 @@
 appdirs==1.4.3
 distlib==0.3.0
-Django==2.2.12
+Django==2.2.22
 django-extensions==2.2.9
 Faker==4.0.3
 filelock==3.0.12
